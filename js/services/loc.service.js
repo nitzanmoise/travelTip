@@ -5,7 +5,7 @@
 // var obj = {x, y};
 // console.log('obj', obj);
 
-
+const API_KEY = 'AIzaSyDMQvJuCuPBRajDO8oN6GHqcakzRxNxg9I';
 
 var locs = [{lat: 11.22, lng: 22.11}]
 
@@ -34,6 +34,7 @@ function getPosition() {
 
 
 export default {
-    getLocs :getLocs,
-    getPosition: getPosition
+    getLocs,
+   getPosition,
+    API_KEY
 }

@@ -7,11 +7,19 @@
 </head>
 <body>
     <h1>ES6</h1>
+    <div>
+       <h2>Location</h2>
+       <p class="location-info"></p> 
+    </div>
+    <form onsubmit="runSearch(this.value); return false;">
+        <input autofocus class="search-input" onchange="runSearch(this.value)" type="search" id="mySearch" name="q">
+        <button type="submit">Search</button>
+    </form>
     <div id="map" style="width: 100%; height: 400px;">
 
     </div>
 
-    <button class="btn1">Click Me</button>
+    <button class="btn1">My location</button>
     <script type="module" src="js/main.js"></script>
     
 </body>

@@ -19,6 +19,12 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 
 
 }
+function moveCenter(lat, lng){
+    map.setCenter({lat, lng})
+
+}
+
+
 function addMarker(loc) {
     var marker = new google.maps.Marker({
         position: loc,
@@ -31,6 +37,7 @@ function addMarker(loc) {
 
 export default {
     initMap,
-    addMarker
+    addMarker,
+    moveCenter
 }
 
