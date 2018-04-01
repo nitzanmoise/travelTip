@@ -1,0 +1,41 @@
+body{
+    background: greenyellow;
+}
+.weather-info{
+    width: 60vh;
+    height: 60vh;
+    background-color: floralwhite;
+}
+/*************************** flex ********************************/
+.flex {
+    display: flex;
+}
+.inline-flex {
+    display: inline-flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+.space-between {
+    justify-content: space-between;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-full {
+    flex: 1;
+}
+.direction-column {
+flex-direction: column;
+}

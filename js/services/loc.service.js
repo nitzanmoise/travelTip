@@ -35,6 +35,6 @@ function getPosition() {
 
 export default {
     getLocs,
-   getPosition,
+    getPosition,
     API_KEY
 }
