@@ -27,12 +27,21 @@ h1{
 }
 .footer-btn{
     width: 10%;
+    
 }
 .search-input{
     width: 60%;
+    padding: 5px;
+
 }
 .search-btn{
     width: 20%;
+    opacity: 100%;
+    background : #c7bbbb;
+    border:1px solid #c2c2c2;
+    cursor: pointer;
+    padding: 5px;
+    
 }
 .header-buttons{
     padding-top: 10px; 
@@ -41,17 +50,24 @@ h1{
 .header-btn{
     width: 40%;
 }
-.clear-btn:hover{
+button:hover{
     animation-name: pulse;
     animation-duration: 1s;
     animation-fill-mode: both;
 }
+.img-state{
+    margin-top: 2px;
+    float: left;
+    width: 1.3em;
+    height: 1.3em;
+}
+.description{
+    margin-left: 10px;
+}
 .clear-btn {
     border:1px solid #c2c2c2;
     height: 6vh;
-    /* border-radius: 20px; */
     opacity: 100%;
-    background: transparent;
     background : #c7bbbb;
     cursor: pointer;
     
