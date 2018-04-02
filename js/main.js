@@ -15,7 +15,7 @@ var urlParams;
     while (match = search.exec(query))
        urlParams[decode(match[1])] = decode(match[2]);
 })();
-console.log(urlParams);
+console.log('this is query ubject:',urlParams);
 
 locService.getLocs()
     .then(locs => console.log('locs', locs))
@@ -186,7 +186,7 @@ var getAdressFromName = (value) => {
 
 var W_KEY = `083c426ccf6b0b56b85c94666ad2c020`;
 var getWeatherData = (lat, lng) => {
-    return fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${W_KEY}`)
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${W_KEY}`)
     .then(res => res.json())
 }
 
