@@ -21,15 +21,11 @@ window.onload = () => {
                         mapService.addMarker({ lat, lng });
                         getAdressFromCoords({ lat, lng })
                             .then(res => {
-                                // console.log({ res });
-                                console.log(res.results[0].formatted_address);
                                 var adresInfo = res.results[0].formatted_address;
-
                                 document.querySelector(".location-info").innerHTML = `${adresInfo}`
                             })
                         getWeatherData(lat, lng)
                             .then(res => {
-                                console.log('this is local weather!', res.weather[0].icon);
                                 var draw = res.weather[0].icon;
                     var name = res.name;
                     var state = res.sys.country     
@@ -40,10 +36,9 @@ window.onload = () => {
                     var wind = res.wind.speed 
 
                     document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
-                    document.querySelector(".weather-location").innerHTML = `${name}, ${state}  <img src="flags_iso/16/${state.toLowerCase()}.png"/>`
-                    document.querySelector(".weather-id").innerHTML = description;
+                    document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img class="state-draw" src="flags_iso/16/${state.toLowerCase()}.png"/> ${description}`
                     document.querySelector(".weather-temp").innerHTML =  temperatureConverter(temp);
-                    document.querySelector(".min-max").innerHTML = `<p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`; 
+                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`; 
 
                                 
 
@@ -72,14 +67,12 @@ document.querySelector('.btn1').onclick = () => {
             mapService.addMarker({ lat, lng });
             getAdressFromCoords({ lat, lng })
                 .then(res => {
-                    // console.log({ res });
                     console.log(res.results[0].formatted_address);
                     var adresInfo = res.results[0].formatted_address;
                     document.querySelector(".location-info").innerHTML = `${adresInfo}`
                 })
             getWeatherData(lat, lng)
                 .then(res => {
-                    console.log('this is local weather!', res.weather[0].icon);
                     var draw = res.weather[0].icon;
                     var name = res.name;   
                     var state = res.sys.country                           
@@ -89,10 +82,10 @@ document.querySelector('.btn1').onclick = () => {
                     var max = res.main.temp_max
                     var wind = res.wind.speed                              
                     document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
-                    document.querySelector(".weather-location").innerHTML = `${name}, ${state}  <img src="flags_iso/16/${state.toLowerCase()}.png"/>`
-                    document.querySelector(".weather-id").innerHTML = description;
+                    document.querySelector(".weather-location").innerHTML = `${name}, ${state}  <img src="flags_iso/16/${state.toLowerCase()}.png"/> ${description}`
+                    document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img class="state-draw" src="flags_iso/16/${state.toLowerCase()}.png"/> ${description}`
                     document.querySelector(".weather-temp").innerHTML =  temperatureConverter(temp);
-                    document.querySelector(".min-max").innerHTML = `<p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`; 
+                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`; 
                 })
 
         })
@@ -121,7 +114,7 @@ document.querySelector('.search-form').addEventListener('submit', (ev) => {
         .then(res => {
             console.log('this is adress', res);
             let lat = res.results[0].geometry.location.lat;
-            let lng = res.results[0].geometry.location.lng
+            let lng = res.results[0].geometry.location.lng 
             mapService.moveCenter(lat, lng)
             mapService.addMarker({ lat, lng });
             console.log(res.results[0].formatted_address);
@@ -129,7 +122,6 @@ document.querySelector('.search-form').addEventListener('submit', (ev) => {
             document.querySelector(".location-info").innerHTML = `${adressInfo}`
             getWeatherData(lat, lng)
                 .then(res => {
-                    console.log('this is searched weather!', res);
                     var draw = res.weather[0].icon;
                     var name = res.name;     
                     var state = res.sys.country                         
@@ -139,10 +131,9 @@ document.querySelector('.search-form').addEventListener('submit', (ev) => {
                     var max = res.main.temp_max
                     var wind = res.wind.speed                        
                     document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
-                    document.querySelector(".weather-location").innerHTML = `${name}, ${state}  <img src="flags_iso/16/${state.toLowerCase()}.png"/>`
-                    document.querySelector(".weather-id").innerHTML = description;
+                    document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img class="state-draw" src="flags_iso/16/${state.toLowerCase()}.png"/> ${description}`
                     document.querySelector(".weather-temp").innerHTML =  temperatureConverter(temp);
-                    document.querySelector(".min-max").innerHTML = `<p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`; 
+                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`; 
 
                     
                 })
@@ -151,35 +142,50 @@ document.querySelector('.search-form').addEventListener('submit', (ev) => {
 
 })
 
+
+
 function temperatureConverter(valNum) {
     valNum = parseFloat(valNum);
     var celius = `${parseInt(valNum-273.15, 10)}ºC`;
     return celius;
-  }
-
-
-
-
+}
 
 var getAdressFromCoords = ({ lat, lng }) => {
     return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${locService.API_KEY}`)
-        .then(res => res.json())
+    .then(res => res.json())
 }
 
 var getAdressFromName = (value) => {
     console.log('getting address')
     return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${locService.API_KEY}`)
-        .then(res => res.json())
+    .then(res => res.json())
 }
 
 var W_KEY = `083c426ccf6b0b56b85c94666ad2c020`;
 var getWeatherData = (lat, lng) => {
     return fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${W_KEY}`)
-        .then(res => res.json())
+    .then(res => res.json())
 }
 
+var url = `https://nitzanmoise.github.io/travelTip/index.html?lat=3.14&lng=1.63`;
 
 
+
+// var urlParams;
+// (window.onpopstate = function () {
+//     var match,
+//         pl     = /\+/g,  // Regex for replacing addition symbol with a space
+//         search = /([^&=]+)=?([^&]*)/g,
+//         decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+//         query  = url
+
+//     urlParams = {};
+//     while (match = search.exec(query))
+//        urlParams[decode(match[1])] = decode(match[2]);
+// })();
+// window.onpopstate()
+// console.log('this is urlPareams', urlParams);
+// alert(urlParams["mode"])
 
 
 

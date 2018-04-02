@@ -7,43 +7,49 @@
     <title>ES6</title>
 </head>
 <link rel="stylesheet" href="css/style.css">
-<!-- <link rel="stylesheet" href="flags/flags.css"> -->
-<link rel="stylesheet" href="flags/flags.min.css">
 
 <body>
-    <header class="flex space-between">
+    <header class="flex space-around">
         <div class="header-info">
             <h1>TravelTip</h1>
             <div>
-                <h2>Location</h2>
+                <h2>Location:</h2>
                 <p class="location-info"></p>
             </div>
             <form class="search-form">
                 <input autofocus class="search-input" type="search" id="mySearch" name="q">
-                <button type="submit">Search</button>
+                <button type="submit" class="search-btn">Search</button>
             </form>
+            <div class="header-buttons">
+                <button class="btn1 header-btn clear-btn">My location</button>
+                <button class="btn5 header-btn clear-btn">Copy location</button>
+            </div>
+
         </div>
         <div class="weather-info">
-            <h2>Weather today</h2>
+            <h2 class="weather-head">Weather today</h2>
             <i class="weather-draw"></i>
-            <h4 class="weather-location"></h4>
-            <p class="weather-id"></p>
-            <current>
-            <span class="weather-temp"></span>
-            <span class="min-max"></span>
-        </current>
+            <div class="weather-location"></div>
+            <div>
+                <current>
+                    <span class="weather-temp"></span>
+                    <span class="min-max"></span>
+                </current>
+            </div>
         </div>
     </header>
-    <div id="map" style="width: 100%; height: 400px;">
+    <main>
+        <div id="map" style="width: 100%; height: 400px;">
 
-    </div>
-
-    <button class="btn1">My location</button>
-    <button class="btn2">Hide last markers</button>
-    <button class="btn3">Show all markers</button>
-    <button class="btn4">Delete last markers</button>
-    <button class="btn5">Copy location</button>
-    
+        </div>
+    </main>
+    <footer>
+        <div class="footer-btn-container">
+            <button class="btn2 footer-btn clear-btn">Hide last markers</button>
+            <button class="btn3 footer-btn clear-btn">Show all markers</button>
+            <button class="btn4 footer-btn clear-btn">Delete last markers</button>
+        </div>
+    </footer>
     <script type="module" src="js/main.js"></script>
 
 </body>
