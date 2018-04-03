@@ -35,11 +35,11 @@ window.onload = () => {
                                     var min = res.main.temp_min
                                     var max = res.main.temp_max
                                     var wind = res.wind.speed
-
+                                    var humidity = res.main.humidity
                                     document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
                                     document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img  class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/>  <span class="description">${description}</span>`
                                     document.querySelector(".weather-temp").innerHTML = temperatureConverter(temp);
-                                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)}`;
+                                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)}.`;
                                     document.querySelector(".extra").innerHTML = ` wind ${wind} m/s, humidity ${humidity}%.`
 
 
@@ -72,11 +72,11 @@ window.onload = () => {
                                     var min = res.main.temp_min
                                     var max = res.main.temp_max
                                     var wind = res.wind.speed
-
+                                    var humidity = res.main.humidity
                                     document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
                                     document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img  class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/>  <span class="description">${description}</span>`
                                     document.querySelector(".weather-temp").innerHTML = temperatureConverter(temp);
-                                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)}`;
+                                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)}.`;
                                     document.querySelector(".extra").innerHTML = ` wind ${wind} m/s, humidity ${humidity}%.`
 
                                 })
@@ -118,11 +118,12 @@ document.querySelector('.btn1').onclick = () => {
                     var min = res.main.temp_min
                     var max = res.main.temp_max
                     var wind = res.wind.speed
+                    var humidity = res.main.humidity
                     document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
                     document.querySelector(".weather-location").innerHTML = `${name}, ${state}  <img class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/> <span class="description">${description}</span>`
                     document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img class="state-draw" src="flags_iso/16/${state.toLowerCase()}.png"/> <span class="description">${description}</span>`
                     document.querySelector(".weather-temp").innerHTML = temperatureConverter(temp);
-                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)}`;
+                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)}.`;
                     document.querySelector(".extra").innerHTML = ` wind ${wind} m/s, humidity ${humidity}%.`
                 })
 
@@ -176,7 +177,7 @@ document.querySelector('.search-form').addEventListener('submit', (ev) => {
                     document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
                     document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <div><img  class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/></div> <span class="description">${description}</span>`
                     document.querySelector(".weather-temp").innerHTML = temperatureConverter(temp);
-                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)}`;
+                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)}.`;
                     document.querySelector(".extra").innerHTML = ` wind ${wind} m/s, humidity ${humidity}%.`
 
 
