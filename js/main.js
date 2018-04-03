@@ -12,15 +12,11 @@ window.onload = () => {
             () => {
 
 
+                if (!urlParams.lat || !urlParams.lng) {
                 locService.getPosition()
                     .then(pos => {
-                        if (!urlParams.lat || urlParams.lng) {
                             var lat = pos.coords.latitude;
                             var lng = pos.coords.longitude;
-                        } else {
-                            var lat = parseFloat(urlParams.lat);
-                            var lng = parseFloat(urlParams.lng);
-                        }
                             console.log('User position is:', lat, lng);
                             document.querySelector(".copy-btn").innerHTML =
                                 `<button class="btn5 header-btn clear-btn" data-clipboard-text="https://nitzanmoise.github.io/travelTip/index.html?lat=${lat}&lng=${lng}" >Copy location</button>`
@@ -57,6 +53,40 @@ window.onload = () => {
                         mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
 
                     })
+                        } else {
+                            var lat = parseFloat(urlParams.lat);
+                            var lng = parseFloat(urlParams.lng);
+                            console.log('User position is:', lat, lng);
+                            document.querySelector(".copy-btn").innerHTML =
+                                `<button class="btn5 header-btn clear-btn" data-clipboard-text="https://nitzanmoise.github.io/travelTip/index.html?lat=${lat}&lng=${lng}" >Copy location</button>`
+                            mapService.moveCenter(lat, lng)
+                            mapService.addMarker({ lat, lng });
+                            getAdressFromCoords({ lat, lng })
+                                .then(res => {
+                                    var adresInfo = res.results[0].formatted_address;
+                                    document.querySelector(".location-info").innerHTML = `${adresInfo}`
+                                })
+                            getWeatherData(lat, lng)
+                                .then(res => {
+                                    var draw = res.weather[0].icon;
+                                    var name = res.name;
+                                    var state = res.sys.country
+                                    var description = res.weather[0].description;
+                                    var temp = res.main.temp
+                                    var min = res.main.temp_min
+                                    var max = res.main.temp_max
+                                    var wind = res.wind.speed
+
+                                    document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
+                                    document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img  class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/>  <span class="description">${description}</span>`
+                                    document.querySelector(".weather-temp").innerHTML = temperatureConverter(temp);
+                                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`;
+
+
+
+                                })
+                        }
+                          
             }
         )
 
@@ -195,6 +225,7 @@ new ClipboardJS('.btn5', {
 
 
 var urlParams;
+
 (window.onpopstate = function () {
     var match,
         pl = /\+/g,  // Regex for replacing addition symbol with a space
