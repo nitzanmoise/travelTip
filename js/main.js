@@ -184,8 +184,7 @@ var getWeatherData = (lat, lng) => {
 
 
 
-// document.querySelector('.btn5').onclick = () => {
-// }
+
 new ClipboardJS('.btn5', {
     target: function(trigger) {
         alert('Location copied.')
