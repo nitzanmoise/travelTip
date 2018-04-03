@@ -3,118 +3,106 @@ console.log('Main!');
 import locService from './services/loc.service.js'
 import mapService from './services/map.service.js'
 
-var urlParams;
-(window.onpopstate = function () {
-    var match,
-        pl     = /\+/g,  // Regex for replacing addition symbol with a space
-        search = /([^&=]+)=?([^&]*)/g,
-        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
-        query  = window.location.search.substring(1);
-
-    urlParams = {};
-    while (match = search.exec(query))
-       urlParams[decode(match[1])] = decode(match[2]);
-})();
-console.log('this is query ubject:',urlParams);
-
 locService.getLocs()
-    .then(locs => console.log('locs', locs))
+.then(locs => console.log('locs', locs))
 
 window.onload = () => {
     mapService.initMap()
-        .then(
-            () => {
-
-
-                locService.getPosition()
-                    .then(pos => {
-                        var lat = pos.coords.latitude;
-                        var lng = pos.coords.longitude;
-                        console.log('User position is:', pos.coords);
-                        document.querySelector(".header-buttons").innerHTML = 
-                        `<button class="btn1 header-btn clear-btn">My location</button>
-                        <button class="btn5 header-btn clear-btn" data-clipboard-text="https://nitzanmoise.github.io/travelTip/index.html?lat=${lat}&lng=${lng}" >Copy location</button>`
-                        mapService.moveCenter(lat, lng)
-                        mapService.addMarker({ lat, lng });
-                        getAdressFromCoords({ lat, lng })
-                            .then(res => {
-                                var adresInfo = res.results[0].formatted_address;
-                                document.querySelector(".location-info").innerHTML = `${adresInfo}`
-                            })
-                        getWeatherData(lat, lng)
-                            .then(res => {
-                                var draw = res.weather[0].icon;
-                    var name = res.name;
-                    var state = res.sys.country     
-                    var description = res.weather[0].description;
-                    var temp = res.main.temp    
-                    var min = res.main.temp_min
-                    var max = res.main.temp_max
-                    var wind = res.wind.speed 
-
-                    document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
-                    document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img  class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/>  <span class="description">${description}</span>`
-                    document.querySelector(".weather-temp").innerHTML =  temperatureConverter(temp);
-                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`; 
-
-                                
-
-                            })
-
-                    })
-                    .catch(err => {
-                        mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
-
-                    })
-            }
-        )
-
-        .catch(err => {
-            console.log('err!!!', err);
-        })
-}
-
-document.querySelector('.btn1').onclick = () => {
-    locService.getPosition()
-        .then(pos => {
-            var lat = pos.coords.latitude;
-            var lng = pos.coords.longitude;
-            console.log('User position is:', pos.coords);
-            document.querySelector(".header-buttons").innerHTML = 
-            `<button class="btn1 header-btn clear-btn">My location</button>
-            <button class="btn5 header-btn clear-btn" data-clipboard-text="https://nitzanmoise.github.io/travelTip/index.html?lat=${lat}&lng=${lng}" >Copy location</button>`
-            mapService.moveCenter(lat, lng)
-            mapService.addMarker({ lat, lng });
-            getAdressFromCoords({ lat, lng })
+    .then(
+        () => {
+            
+            
+            locService.getPosition()
+            .then(pos => {
+                var lat = parseFloat(urlParams.lat);
+                var lng = parseFloat(urlParams.lng);
+                console.log('User position is:', lat, lng);
+                document.querySelector(".copy-btn").innerHTML =
+                `<button class="btn5 header-btn clear-btn" data-clipboard-text="https://nitzanmoise.github.io/travelTip/index.html?lat=${lat}&lng=${lng}" >Copy location</button>`
+                mapService.moveCenter(lat, lng)
+                mapService.addMarker({ lat, lng });
+                getAdressFromCoords({ lat, lng })
                 .then(res => {
-                    console.log(res.results[0].formatted_address);
                     var adresInfo = res.results[0].formatted_address;
                     document.querySelector(".location-info").innerHTML = `${adresInfo}`
                 })
-            getWeatherData(lat, lng)
+                getWeatherData(lat, lng)
                 .then(res => {
                     var draw = res.weather[0].icon;
-                    var name = res.name;   
-                    var state = res.sys.country                           
+                    var name = res.name;
+                    var state = res.sys.country
                     var description = res.weather[0].description;
-                    var temp = res.main.temp 
+                    var temp = res.main.temp
                     var min = res.main.temp_min
                     var max = res.main.temp_max
-                    var wind = res.wind.speed                              
+                    var wind = res.wind.speed
+                    
                     document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
-                    document.querySelector(".weather-location").innerHTML = `${name}, ${state}  <img class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/> <span class="description">${description}</span>`
-                    document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img class="state-draw" src="flags_iso/16/${state.toLowerCase()}.png"/> <span class="description">${description}</span>`
-                    document.querySelector(".weather-temp").innerHTML =  temperatureConverter(temp);
-                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`; 
+                    document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img  class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/>  <span class="description">${description}</span>`
+                    document.querySelector(".weather-temp").innerHTML = temperatureConverter(temp);
+                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`;
+                    
+                    
+                    
                 })
-
-        })
-        .catch(err => {
-            mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
-
-        })
+                
+            })
+            .catch(err => {
+                let lat = parseFloat(urlParams.lat);
+                let lng = parseFloat(urlParams.lng);
+                mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
+                
+            })
+        }
+    )
+    
+    .catch(err => {
+        console.log('err!!!', err);
+    })
 }
 
+document.querySelector('.btn1').onclick = () => {
+    
+    
+    locService.getPosition()
+    .then(pos => {
+        var lat = pos.coords.latitude;
+        var lng = pos.coords.longitude;
+        console.log('User position is:', pos.coords);
+        document.querySelector(".copy-btn").innerHTML =
+        `<button class="btn5 header-btn clear-btn" data-clipboard-text="https://nitzanmoise.github.io/travelTip/index.html?lat=${lat}&lng=${lng}" >Copy location</button>`
+        mapService.moveCenter(lat, lng)
+        mapService.addMarker({ lat, lng });
+        getAdressFromCoords({ lat, lng })
+        .then(res => {
+            console.log(res.results[0].formatted_address);
+            var adresInfo = res.results[0].formatted_address;
+            document.querySelector(".location-info").innerHTML = `${adresInfo}`
+        })
+        getWeatherData(lat, lng)
+        .then(res => {
+            var draw = res.weather[0].icon;
+            var name = res.name;
+            var state = res.sys.country
+            var description = res.weather[0].description;
+            var temp = res.main.temp
+            var min = res.main.temp_min
+            var max = res.main.temp_max
+            var wind = res.wind.speed
+            document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
+            document.querySelector(".weather-location").innerHTML = `${name}, ${state}  <img class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/> <span class="description">${description}</span>`
+            document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img class="state-draw" src="flags_iso/16/${state.toLowerCase()}.png"/> <span class="description">${description}</span>`
+            document.querySelector(".weather-temp").innerHTML = temperatureConverter(temp);
+            document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`;
+        })
+        
+    })
+    .catch(err => {
+        mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
+        
+    })
+    
+}
 document.querySelector('.btn2').onclick = () => {
     mapService.clearMarkers();
 }
@@ -128,48 +116,47 @@ document.querySelector('.btn4').onclick = () => {
 
 document.querySelector('.search-form').addEventListener('submit', (ev) => {
     ev.preventDefault();
-    var adress = document.querySelector('.search-input').value;
-    console.log('this is search adresss', adress);
-    getAdressFromName(adress)
+    var address = document.querySelector('.search-input').value;
+    console.log('this is search adresss', address);
+    getAdressFromName(address)
+    .then(res => {
+        console.log('this is adress', res);
+        let lat = res.results[0].geometry.location.lat;
+        let lng = res.results[0].geometry.location.lng
+        document.querySelector(".copy-btn").innerHTML =
+        `<button class="btn5 header-btn clear-btn" data-clipboard-text="https://nitzanmoise.github.io/travelTip/index.html?lat=${lat}&lng=${lng}" >Copy location</button>`
+        mapService.moveCenter(lat, lng)
+        mapService.addMarker({ lat, lng });
+        console.log(res.results[0].formatted_address);
+        var adressInfo = res.results[0].formatted_address;
+        document.querySelector(".location-info").innerHTML = `${adressInfo}`
+        getWeatherData(lat, lng)
         .then(res => {
-            console.log('this is adress', res);
-            let lat = res.results[0].geometry.location.lat;
-            let lng = res.results[0].geometry.location.lng 
-            document.querySelector(".header-buttons").innerHTML = 
-            `<button class="btn1 header-btn clear-btn">My location</button>
-            <button class="btn5 header-btn clear-btn" data-clipboard-text="https://nitzanmoise.github.io/travelTip/index.html?lat=${lat}&lng=${lng}" >Copy location</button>`
-            mapService.moveCenter(lat, lng)
-            mapService.addMarker({ lat, lng });
-            console.log(res.results[0].formatted_address);
-            var adressInfo = res.results[0].formatted_address;
-            document.querySelector(".location-info").innerHTML = `${adressInfo}`
-            getWeatherData(lat, lng)
-                .then(res => {
-                    var draw = res.weather[0].icon;
-                    var name = res.name;     
-                    var state = res.sys.country                         
-                    var description = res.weather[0].description;
-                    var temp = res.main.temp  
-                    var min = res.main.temp_min
-                    var max = res.main.temp_max
-                    var wind = res.wind.speed                        
-                    document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
-                    document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <div><img  class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/></div> <span class="description">${description}</span>`
-                    document.querySelector(".weather-temp").innerHTML =  temperatureConverter(temp);
-                    document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`; 
-
-                    
-                })
-
+            var draw = res.weather[0].icon;
+            var name = res.name;
+            var state = res.sys.country
+            var description = res.weather[0].description;
+            var temp = res.main.temp
+            var min = res.main.temp_min
+            var max = res.main.temp_max
+            var wind = res.wind.speed
+            document.querySelector(".weather-draw").innerHTML = `<img src="http://openweathermap.org/img/w/${draw}.png"></img>`
+            document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <div><img  class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/></div> <span class="description">${description}</span>`
+            document.querySelector(".weather-temp").innerHTML = temperatureConverter(temp);
+            document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`;
+            
+            
         })
-
+        
+    })
+    
 })
 
 
 
 function temperatureConverter(valNum) {
     valNum = parseFloat(valNum);
-    var celius = `${parseInt(valNum-273.15, 10)}ºC`;
+    var celius = `${parseInt(valNum - 273.15, 10)}ºC`;
     return celius;
 }
 
@@ -190,7 +177,6 @@ var getWeatherData = (lat, lng) => {
     .then(res => res.json())
 }
 
-var url = `https://nitzanmoise.github.io/travelTip/index.html?lat=2.14&lng=1.63`;
 
 
 new ClipboardJS('.btn5')
@@ -199,6 +185,20 @@ new ClipboardJS('.btn5')
 
 
 
+var urlParams;
+(window.onpopstate = function () {
+    var match,
+    pl     = /\+/g,  // Regex for replacing addition symbol with a space
+    search = /([^&=]+)=?([^&]*)/g,
+    decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+    query  = window.location.search.substring(1);
+    
+    urlParams = {};
+    while (match = search.exec(query))
+    urlParams[decode(match[1])] = decode(match[2]);
+})();
+
+console.log('this is query ubject:', urlParams);
 
 
 
