@@ -25,6 +25,9 @@ h1{
     margin: 0;
 
 }
+.extra{
+    margin-left: 10%;
+}
 .footer-btn{
     width: 20%;
     
@@ -171,10 +174,11 @@ footer{
 }
 .footer-btn{
     width: 30%;
+    border-radius: 10px;
 }
 .footer-btn-container{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
    }
 
