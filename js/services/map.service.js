@@ -5,6 +5,8 @@ var map;
 function initMap(lat = 32.0749831, lng = 34.9120554) {
 
     console.log('InitMap');
+    document.querySelector(".location-info").innerHTML = `<p>Getting position...</p>`
+    document.querySelector(".weather-temp").innerHTML = `<div class="getting-weather">Getting weather info...</div>`;
 
     const gmapApi = new GoogleMapsApi();
     return gmapApi.load().then(() => {
@@ -27,13 +29,25 @@ var markers = [];
 function addMarker(loc) {
     var marker;
     marker = 0;
+    var image = 'img/if_location_1814106.png';
+
     marker = new google.maps.Marker({
         position: loc,
         map: map,
-        title: 'Hello World!'
+        animation: google.maps.Animation.DROP,
+        icon: image
     });
     markers.push(marker);
 }
+
+
+function toggleBounce() {
+    if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+    } else {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+  }
 
 function setMapOnAll(map) {
     for (var i = 0; i < markers.length-1; i++) {
@@ -63,11 +77,8 @@ export default {
     addMarker,
     moveCenter,
     markers,
-    // hideLastMarkers,
-    // showAllMarkers
     clearMarkers,
     showMarkers,
     deleteMarkers
-
 }
 

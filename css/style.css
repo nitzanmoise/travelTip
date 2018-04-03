@@ -91,6 +91,9 @@ button:hover{
     text-align: center;
     color: dimgray;
 }
+.getting-weather{
+    padding: 5px;
+}
 .weather-draw{
    padding-left: 45%;
 }

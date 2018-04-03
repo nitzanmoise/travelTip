@@ -10,8 +10,6 @@ window.onload = () => {
     mapService.initMap()
         .then(
             () => {
-
-
                 if (!urlParams.lat || !urlParams.lng) {
                 locService.getPosition()
                     .then(pos => {
@@ -48,10 +46,7 @@ window.onload = () => {
                                 })
                     })
                     .catch(err => {
-                        let lat = parseFloat(urlParams.lat);
-                        let lng = parseFloat(urlParams.lng);
                         mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
-
                     })
                         } else {
                             var lat = parseFloat(urlParams.lat);
@@ -81,8 +76,6 @@ window.onload = () => {
                                     document.querySelector(".weather-location").innerHTML = `<div class="name-state"> ${name}, ${state} </div> <img  class="img-state" src="flags_iso/16/${state.toLowerCase()}.png"/>  <span class="description">${description}</span>`
                                     document.querySelector(".weather-temp").innerHTML = temperatureConverter(temp);
                                     document.querySelector(".min-max").innerHTML = ` <p>temperature from ${temperatureConverter(min)} to ${temperatureConverter(max)} wind ${wind} m/s.`;
-
-
 
                                 })
                         }
